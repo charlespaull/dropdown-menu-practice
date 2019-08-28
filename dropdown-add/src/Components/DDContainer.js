@@ -1,10 +1,11 @@
-import React from "react"; 
+import React from "react";
+import Toggle from "./Toggle"
 
 
 // this has to be a class component with a constructor because it's holding the state
 class DDContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         // state will have the Options (selected) & toggle (isOpen)
         this.state = {
@@ -19,9 +20,19 @@ class DDContainer extends React.Component {
         return (
             <div>
                 Hello!
+                <Toggle />
             </div>
         )
     }
+}
+
+// toggle click function
+// this is going to trigger the isOpen to change state
+const toggleClick = () => {
+    this.setState({
+        // this changes the state to the opposite of the current state isOpen
+        isOpen: !this.state.isOpen
+    })
 }
 
 // data - list of cities - array of objects

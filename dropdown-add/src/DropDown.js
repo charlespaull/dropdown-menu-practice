@@ -42,30 +42,47 @@ class DropDown extends React.Component {
       }
     ];
 
+    // binding the methods of to the component instance (the component at that instance when the method is triggered) with .bind() - has to be done inside of our constructor. 
     this.toggleClick = this.toggleClick.bind(this);
 
     this.toggleAdd = this.toggleAdd.bind(this);
 
-    this.cityCapture = this.cityCapture.bind(this);
+    // this.cityCapture = this.cityCapture.bind(this);
   }
+  // NOTE: end of constructor
+
+  // ---------------------------------------------------
 
   render() {
     let items;
     if (this.state.isOpen) {
       items = this.cities.map(item => {
-        return <div> {item.location} </div>;
+        return <div key={item.id}> {item.location} </div>;
       });
     }
 
-    // find some way to render <Search Bar /> component if (this.state.toggleAdd === true)
+    // find some way to render an input & button submit component if (this.state.toggleAdd)
+    // if this is true
+    if (this.state.isAddOpen) {
+      return (
+        // return div that has an input field & submit button to add a city to the dropdown list
+        <div>
+          <input placeholder="Add a City" type="search" className="add-city"></input>
+          <button className="submit">Add</button>
+        </div>
+      )
+    }
 
     return (
       <div style={{ display: "inline", flexDirection: "column" }}>
+        {/* just toggles between T/F when Toggle is clicked */}
         <div>{!this.state.isOpen ? "false" : "true"}</div>
-        {/*this styling below isn't correct - just trying to get Add to open/collapse*/}
-        <div style={{ textAlign: "center" }}>+</div>
-        <SearchBar />
         <div onClick={() => this.toggleClick()}>Toggle</div>
+        {/* just toggles between T/F when "+ sign" is clicked */}
+        <div style={{ textAlign: "center" }}>{!this.state.isAddOpen ? "false" : "true"}</div>
+        {/*this styling below isn't correct - just trying to get Add to open/collapse*/}
+        
+        <div style={{ textAlign: "center" }} onClick={() => this.toggleAdd()}>+</div>
         {items}
       </div>
     );
@@ -81,26 +98,25 @@ class DropDown extends React.Component {
   }
 
   toggleAdd() {
+    console.log("hello there! Add me.")
     this.setState({
       // this will change the state to the opposite of the current state isAddOpen
       isAddOpen: !this.state.isAddOpen
     });
   }
 
-  cityCapture() {
+  // cityCapture() {
 
-  }
-}
-
-function SearchBar(props) {
-  return (
-    <div>
-      <form className="user-input">
-        <input>Enter New City Here</input>
-        <button className="city-submit" onClick={this.cityCapture()}>Submit</button>
-      </form>
-    </div>
-  );
+  // }
 }
 
 export default DropDown;
+
+// return (
+//   <div>
+//     <form className="user-input">
+//       <input>Enter New City Here</input>
+//       <button className="city-submit" onClick={this.cityCapture()}>Submit</button>
+//     </form>
+//   </div>
+// );

@@ -42,12 +42,14 @@ class DropDown extends React.Component {
       }
     ];
 
-    // binding the methods of to the component instance (the component at that instance when the method is triggered) with .bind() - has to be done inside of our constructor. 
+    // binding the methods of to the component instance (the component at that instance when the method is triggered) with .bind() - has to be done inside of our constructor.
     this.toggleClick = this.toggleClick.bind(this);
 
     this.toggleAdd = this.toggleAdd.bind(this);
 
-    // this.cityCapture = this.cityCapture.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+
+    this.onSumbitAdd = this.onSumbitAdd.bind(this);
   }
   // NOTE: end of constructor
 
@@ -67,10 +69,17 @@ class DropDown extends React.Component {
       return (
         // return div that has an input field & submit button to add a city to the dropdown list
         <div>
-          <input placeholder="Add a City" type="search" className="add-city"></input>
-          <button className="submit">Add</button>
+          <input
+            placeholder="Add a City"
+            type="text"
+            onChange={e => this.handleInputChange(e)}
+            value={this.state.userInput}
+          ></input>
+          <button className="city-submit" value="submit" onSubmit={e => this.onSubmitAdd(e)} >
+            Add
+          </button>
         </div>
-      )
+      );
     }
 
     return (
@@ -78,11 +87,14 @@ class DropDown extends React.Component {
         {/* just toggles between T/F when Toggle is clicked */}
         <div>{!this.state.isOpen ? "false" : "true"}</div>
         <div onClick={() => this.toggleClick()}>Toggle</div>
-        {/* just toggles between T/F when "+ sign" is clicked */}
-        <div style={{ textAlign: "center" }}>{!this.state.isAddOpen ? "false" : "true"}</div>
+        {/* just toggles between T/F when "+ sign" is clicked -- styling below isn't correct */}
+        <div style={{ textAlign: "center" }}>
+          {!this.state.isAddOpen ? "false" : "true"}
+        </div>
         {/*this styling below isn't correct - just trying to get Add to open/collapse*/}
-        
-        <div style={{ textAlign: "center" }} onClick={() => this.toggleAdd()}>+</div>
+        <div style={{ textAlign: "center" }} onClick={() => this.toggleAdd()}>
+          +
+        </div>
         {items}
       </div>
     );
@@ -98,25 +110,26 @@ class DropDown extends React.Component {
   }
 
   toggleAdd() {
-    console.log("hello there! Add me.")
+    console.log("hello there! Add me.");
     this.setState({
       // this will change the state to the opposite of the current state isAddOpen
       isAddOpen: !this.state.isAddOpen
     });
   }
 
-  // cityCapture() {
+  // this works - captures user value on each keystroke
+  handleInputChange(event) {
+    console.log(event.target.value); // checking to see if user key stokes is captured - works
+    this.setState({
+      userInput: event.target.value
+    });
+  }
 
-  // }
+
+  onSubmitAdd(event) {
+    console.log(event + " value captured!")
+    event.preventDefault();
+  }
 }
 
 export default DropDown;
-
-// return (
-//   <div>
-//     <form className="user-input">
-//       <input>Enter New City Here</input>
-//       <button className="city-submit" onClick={this.cityCapture()}>Submit</button>
-//     </form>
-//   </div>
-// );

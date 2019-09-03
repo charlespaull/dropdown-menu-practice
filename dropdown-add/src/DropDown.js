@@ -15,7 +15,7 @@ class DropDown extends React.Component {
       isAddOpen: false,
       // add bar - user inputs new value to add
       // starts as an empty string and will capture value with event.target.value
-      userInput: ""
+      userInput: "", 
     };
 
     // data - list of cities - array of objects
@@ -49,7 +49,7 @@ class DropDown extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
-    this.onSumbitAdd = this.onSumbitAdd.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   // NOTE: end of constructor
 
@@ -69,15 +69,17 @@ class DropDown extends React.Component {
       return (
         // return div that has an input field & submit button to add a city to the dropdown list
         <div>
-          <input
-            placeholder="Add a City"
-            type="text"
-            onChange={e => this.handleInputChange(e)}
-            value={this.state.userInput}
-          ></input>
-          <button className="city-submit" value="submit" onSubmit={e => this.onSubmitAdd(e)} >
-            Add
-          </button>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              placeholder="Add a City"
+              type="text"
+              onChange={e => this.handleInputChange(e)}
+              value={this.state.userInput}
+            ></input>
+            <button className="city-submit" value={this.state.value}>
+              Add
+            </button>
+          </form>
         </div>
       );
     }
@@ -113,7 +115,8 @@ class DropDown extends React.Component {
     console.log("hello there! Add me.");
     this.setState({
       // this will change the state to the opposite of the current state isAddOpen
-      isAddOpen: !this.state.isAddOpen
+      isAddOpen: !this.state.isAddOpen,
+      isOpen: !this.state.isOpen
     });
   }
 
@@ -126,9 +129,12 @@ class DropDown extends React.Component {
   }
 
 
-  onSubmitAdd(event) {
-    console.log(event + " value captured!")
+  handleSubmit(event) {
     event.preventDefault();
+    // grabs value from state constructor
+    const data = this.state;
+    // console logs to show submit button works - now need POST to this.cities array
+    console.log(data)
   }
 }
 

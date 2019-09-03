@@ -15,7 +15,7 @@ class DropDown extends React.Component {
       isAddOpen: false,
       // add bar - user inputs new value to add
       // starts as an empty string and will capture value with event.target.value
-      userInput: "", 
+      userInput: ""
     };
 
     // data - list of cities - array of objects
@@ -122,19 +122,28 @@ class DropDown extends React.Component {
 
   // this works - captures user value on each keystroke
   handleInputChange(event) {
-    console.log(event.target.value); // checking to see if user key stokes is captured - works
+    // console.log(event.target.value); // checking to see if user key stokes is captured - works
     this.setState({
       userInput: event.target.value
     });
   }
 
-
   handleSubmit(event) {
+    // create a new object - this will be pushed into this.cities with a location and id
+    let obj;
     event.preventDefault();
     // grabs value from state constructor
     const data = this.state;
+    // close isAddOpen
+    this.setState({
+      isAddOpen: !this.state.isAddOpen
+    });
     // console logs to show submit button works - now need POST to this.cities array
-    console.log(data)
+    console.log(data);
+    // if (this.cities.id === null) obj[id] = 0;
+    obj = { id: this.cities[this.cities.id++], location: this.state.userInput };
+    this.cities.push(obj)
+    console.log(obj);
   }
 }
 

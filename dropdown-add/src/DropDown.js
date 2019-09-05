@@ -23,28 +23,28 @@ class DropDown extends React.Component {
       // pre-added cities in the dropdown menu
       cities: [
         {
-          id: 1,
+          id: 0,
           location: "Los Angeles"
         },
         {
-          id: 2,
+          id: 1,
           location: "San Francisco"
         },
         {
-          id: 3,
+          id: 2,
           location: "Barcelona"
         },
         {
-          id: 4,
+          id: 3,
           location: "Tokyo"
         },
         {
-          id: 5,
+          id: 4,
           location: "Atlanta"
         }
       ],
 
-      selectCity: null
+      selectCity: 0
     };
 
     // data - list of cities - array of objects
@@ -64,18 +64,38 @@ class DropDown extends React.Component {
 
   // ---------------------------------------------------
 
+
+  // items = this.state.cities.map(item => {
+  //   return <div key={item.id} onSubmit={this.onClickCity}> {item.location} </div>;
+  // });
+
   render() {
     let items;
+    /*if (this.state.isOpen) {
+      items = (
+        <select value={this.state.selectCity} onClick={this.onClickCity}>
+          {this.state.cities.map(item =>  <option key={item.id}>{item.location} </option>)}
+        </select>
+      )
+    }*/
+
     if (this.state.isOpen) {
-      items = this.state.cities.map(item => {
-        return <div key={item.id}> {item.location} </div>;
-      });
+      items = (
+        <div>
+          { this.state.cities[this.state.selectCity].location }
+          <div style={{display: 'flex', flexDirection: 'col'}}>
+            {this.state.cities.map(item =>  <div key={item.id} id={item.id} onClick={this.onClickCity}>{item.location} </div>)}
+          </div>
+        </div>
+      )
     }
 
     // find some way to render an input & button submit component if (this.state.toggleAdd)
     // if this is true
+    let add
     if (this.state.isAddOpen) {
-      return (
+      //return (
+      add = (
         // return div that has an input field & submit button to add a city to the dropdown list
         <div>
           <form onSubmit={this.handleSubmit}>
@@ -107,6 +127,7 @@ class DropDown extends React.Component {
           +
         </div>
         {items}
+        { add }
       </div>
     );
   }
@@ -152,22 +173,24 @@ class DropDown extends React.Component {
     });
     // console logs to show submit button works - now need POST to this.cities array
     console.log(data);
-    // if (this.cities.id === null) obj[id] = 0;
 
-    // this isn't correct because it doesn't use this.setState({})
-    obj = { id: this.state.idCounter++, location: this.state.userInput };
-    // console.log(this.cities[this.cities.id++]);
+    // this isn't correct because it doesn't use this.setState({}) but it works
+    obj = { id: this.state.cities.length, location: this.state.userInput };
     // push the user inputted city in the array of objects in city (state)
-    this.state.cities.push(obj);
+    this.setState({
+      cities: [ ...this.state.cities, obj ]
+    })
     console.log(obj);
   }
 
   onClickCity(event) {
     let cityChoice;
+    console.log(event.target)
     event.preventDefault();
     this.setState({
-      // selectCity: 
+      selectCity: event.target.id
     })
+    // console.log(event.target.value)
   }
 }
 

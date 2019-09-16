@@ -18,8 +18,6 @@ class DropDown extends React.Component {
       userInput: "",
       // ID counter to increment by 1 to each added city.
       idCounter: 0,
-      // this.cities[cities.length - 1].id, //this won't work - comes up as undefined
-
       // pre-added cities in the dropdown menu
       cities: [
         {
@@ -47,8 +45,6 @@ class DropDown extends React.Component {
       selectCity: 0
     };
 
-    // data - list of cities - array of objects
-
     // binding the methods of to the component instance (the component at that instance when the method is triggered) with .bind() - has to be done inside of our constructor.
     this.toggleClick = this.toggleClick.bind(this);
 
@@ -64,37 +60,27 @@ class DropDown extends React.Component {
 
   // ---------------------------------------------------
 
-
-  // items = this.state.cities.map(item => {
-  //   return <div key={item.id} onSubmit={this.onClickCity}> {item.location} </div>;
-  // });
-
   render() {
     let items;
-    /*if (this.state.isOpen) {
-      items = (
-        <select value={this.state.selectCity} onClick={this.onClickCity}>
-          {this.state.cities.map(item =>  <option key={item.id}>{item.location} </option>)}
-        </select>
-      )
-    }*/
-
     if (this.state.isOpen) {
       items = (
         <div>
-          { this.state.cities[this.state.selectCity].location }
-          <div style={{display: 'flex', flexDirection: 'col'}}>
-            {this.state.cities.map(item =>  <div key={item.id} id={item.id} onClick={this.onClickCity}>{item.location} </div>)}
+          {this.state.cities[this.state.selectCity].location}
+          <div style={{ display: "flex", flexDirection: "col" }}>
+            {this.state.cities.map(item => (
+              <div key={item.id} id={item.id} onClick={this.onClickCity}>
+                {item.location}{" "}
+              </div>
+            ))}
           </div>
         </div>
-      )
+      );
     }
 
     // find some way to render an input & button submit component if (this.state.toggleAdd)
     // if this is true
-    let add
+    let add;
     if (this.state.isAddOpen) {
-      //return (
       add = (
         // return div that has an input field & submit button to add a city to the dropdown list
         <div>
@@ -127,7 +113,7 @@ class DropDown extends React.Component {
           +
         </div>
         {items}
-        { add }
+        {add}
       </div>
     );
   }
@@ -168,29 +154,23 @@ class DropDown extends React.Component {
     this.setState({
       isAddOpen: !this.state.isAddOpen,
       isOpen: !this.state.isOpen
-      // the below comes up as undefined and breaks code
-      // cities: this.state.cities[cities.length - 1].id++
     });
     // console logs to show submit button works - now need POST to this.cities array
     console.log(data);
-
-    // this isn't correct because it doesn't use this.setState({}) but it works
     obj = { id: this.state.cities.length, location: this.state.userInput };
-    // push the user inputted city in the array of objects in city (state)
+    // add the user inputted city in the array of objects in city (state)
     this.setState({
-      cities: [ ...this.state.cities, obj ]
-    })
+      cities: [...this.state.cities, obj]
+    });
     console.log(obj);
   }
 
   onClickCity(event) {
-    let cityChoice;
-    console.log(event.target)
+    console.log(event.target);
     event.preventDefault();
     this.setState({
       selectCity: event.target.id
-    })
-    // console.log(event.target.value)
+    });
   }
 }
 
